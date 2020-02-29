@@ -17,8 +17,9 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:src="@drawable/amazondemocover2"/>
+
     <TextView
         android:id="@+id/app_slogan"
         android:layout_width="180dp"
@@ -48,6 +49,7 @@
         android:textAllCaps="false"
         android:textSize="18sp"
         android:text="Sign Up"
+        android:textStyle="bold"
         android:textColor="@color/colorWhite"/>
 
     <Button
@@ -63,6 +65,7 @@
         android:textAllCaps="false"
         android:textSize="18sp"
         android:text="Login"
+        android:textStyle="bold"
         android:textColor="@color/colorWhite"/>
 
 </RelativeLayout>
