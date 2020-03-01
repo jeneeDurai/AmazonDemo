@@ -22,6 +22,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 
+import static android.text.TextUtils.lastIndexOf;
+
 public class SignUPActivity extends AppCompatActivity {
 
     private Button signUpBtn;
@@ -94,14 +96,18 @@ public class SignUPActivity extends AppCompatActivity {
         RootRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(!(dataSnapshot.child("Users").child(name).exists())){
+
+                char dot = '.';
+                String mailStr = email.substring(0, email.lastIndexOf("."));
+
+                if(!(dataSnapshot.child("Users").child(mailStr).exists())){
 
                     HashMap<String,Object> userdataMap = new HashMap<>();
                     userdataMap.put("name",name);
                     userdataMap.put("email",email);
                     userdataMap.put("password",password);
 
-                    RootRef.child("Users").child(name).updateChildren(userdataMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    RootRef.child("Users").child(mailStr).updateChildren(userdataMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()){
@@ -109,6 +115,7 @@ public class SignUPActivity extends AppCompatActivity {
                                 loadingBar.dismiss();
 
                                 Intent i = new Intent(SignUPActivity.this, LoginActivity.class);
+                                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(i);
 
                             }else{
@@ -124,6 +131,7 @@ public class SignUPActivity extends AppCompatActivity {
                     Toast.makeText(SignUPActivity.this, "Provide different email.", Toast.LENGTH_SHORT).show();
 
                     Intent i = new Intent(SignUPActivity.this, MainActivity.class);
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(i);
                 }
             }
