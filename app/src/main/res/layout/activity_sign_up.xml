@@ -45,7 +45,7 @@
         />
 
     <EditText
-        android:id="@+id/register_email_input"
+        android:id="@+id/register_name_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/register_title"
@@ -59,10 +59,32 @@
         android:layout_marginTop="15dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
+        android:hint="Name"
+        android:textColor="@color/colorWhite"
+        android:textColorHint="@color/colorPrimary"
+        android:textSize="17sp"
+        android:inputType="text"/>
+
+    <EditText
+        android:id="@+id/register_email_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/register_name_input"
+        android:background="@drawable/input_design_white"
+
+
+        android:paddingRight="20dp"
+        android:paddingLeft="20dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:hint="Email"
         android:textColor="@color/colorWhite"
         android:textColorHint="@color/colorPrimary"
-        android:textSize="17sp"/>
+        android:textSize="17sp"
+        android:inputType="text"/>
 
     <EditText
         android:id="@+id/register_password_input"
@@ -105,7 +127,7 @@
 
 
         <Button
-            android:id="@+id/main_login_btn"
+            android:id="@+id/signUp_submit_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -118,6 +140,7 @@
             android:textAllCaps="false"
             android:textColor="@color/colorWhite"
             android:textSize="15sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            />
 
 </RelativeLayout>
