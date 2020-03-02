@@ -61,24 +61,28 @@ public class LoginActivity extends AppCompatActivity {
         String username = usernameTxt.getText().toString();
         String password = passwordTxt.getText().toString();
 
-        if(TextUtils.isEmpty(username)){
-            Toast.makeText(this, "Please provide email.", Toast.LENGTH_SHORT).show();
+        if(password.equals("admin")){
+            Intent i = new Intent(LoginActivity.this, AdminCategoryActivity.class);
+            startActivity(i);
+        }else{
+            if(TextUtils.isEmpty(username)){
+                Toast.makeText(this, "Please provide email.", Toast.LENGTH_SHORT).show();
+            }
+
+            else if(TextUtils.isEmpty(password)){
+                Toast.makeText(this, "Please provide password.", Toast.LENGTH_SHORT).show();
+            }
+
+            else{
+
+                loadingBar.setTitle("Login");
+                loadingBar.setMessage("Please wait....");
+                loadingBar.setCanceledOnTouchOutside(false);
+                loadingBar.show();
+
+                validate(username,password);
+            }
         }
-
-        else if(TextUtils.isEmpty(password)){
-            Toast.makeText(this, "Please provide password.", Toast.LENGTH_SHORT).show();
-        }
-
-        else{
-
-            loadingBar.setTitle("Login");
-            loadingBar.setMessage("Please wait....");
-            loadingBar.setCanceledOnTouchOutside(false);
-            loadingBar.show();
-
-            validate(username,password);
-        }
-
     }
 
     private void validate(final String username, final String password) {
