@@ -28,16 +28,19 @@ public class MainActivity extends AppCompatActivity {
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String uname = loginPreferences.getString("username", null);
+//                String uname = loginPreferences.getString("username", null);
+//
+//                if(uname != null){
+//                    Intent i = new Intent(MainActivity.this, HomeActivity.class);
+//                    startActivity(i);
+//                }
+//                else{
+//                    Intent i = new Intent(MainActivity.this, LoginActivity.class);
+//                    startActivity(i);
+//                }
 
-                if(uname != null){
-                    Intent i = new Intent(MainActivity.this, HomeActivity.class);
+                Intent i = new Intent(MainActivity.this, HomeActivity.class);
                     startActivity(i);
-                }
-                else{
-                    Intent i = new Intent(MainActivity.this, LoginActivity.class);
-                    startActivity(i);
-                }
 
 
             }
