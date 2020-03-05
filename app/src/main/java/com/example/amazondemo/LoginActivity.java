@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.amazondemo.model.User;
+import com.example.amazondemo.prevalent.Prevalent;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -101,17 +102,22 @@ public class LoginActivity extends AppCompatActivity {
                         loadingBar.dismiss();
                         Toast.makeText(LoginActivity.this, "login Success", Toast.LENGTH_SHORT).show();
 
+                        loginPrefsEditor.putString("username", user.getName());
+                        loginPrefsEditor.putString("email", username);
+
                         if(remberMeCheck.isChecked()){
-                            loginPrefsEditor.putString("username", username);
-                            loginPrefsEditor.putString("password", password);
-                            loginPrefsEditor.commit();
+                            loginPrefsEditor.putBoolean("saveLogin", true);
                         }
+                        else{
+                            loginPrefsEditor.putBoolean("saveLogin", false);
+                        }
+                        loginPrefsEditor.commit();
 
                         Intent i = new Intent(LoginActivity.this, HomeActivity.class);
                         startActivity(i);
 
 
-//                        String uname = loginPreferences.getString("username", null);
+  //                      String uname = loginPreferences.getString("username", null);
 //                        Toast.makeText(LoginActivity.this, uname, Toast.LENGTH_SHORT).show();
 
                     }

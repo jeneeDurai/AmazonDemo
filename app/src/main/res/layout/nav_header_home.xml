@@ -18,7 +18,8 @@
         android:elevation="12dp"
         android:id="@+id/view2"
         app:cardCornerRadius="40dp"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center">
         <ImageView
             android:layout_height="80dp"
             android:layout_width="match_parent"
@@ -29,11 +30,22 @@
 
     <TextView
         android:id="@+id/user_profile_name"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:textSize="20sp"
         android:layout_marginLeft="4dp"
+        android:layout_gravity="center"
+        android:text="user name"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+    <TextView
+        android:id="@+id/user_profile_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:layout_marginLeft="4dp"
+        android:layout_gravity="center"
         android:text="user name"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 

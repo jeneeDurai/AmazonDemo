@@ -14,9 +14,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+
+import com.example.amazondemo.prevalent.Prevalent;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    TextView unameTxt,emailTxt;
+    private SharedPreferences loginPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +49,18 @@ public class HomeActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        View headerView = navigationView.getHeaderView(0);
+        unameTxt = (TextView) headerView.findViewById(R.id.user_profile_name);
+        emailTxt = (TextView) headerView.findViewById(R.id.user_profile_email);
+
+        loginPreferences = getSharedPreferences("loginPrefs", MODE_PRIVATE);
+
+        boolean saveLogin = loginPreferences.getBoolean("saveLogin",false);
+        String username = loginPreferences.getString("username","").toString();
+        String email = loginPreferences.getString("email","").toString();
+        unameTxt.setText(username);
+        emailTxt.setText(email);
     }
 
     @Override
