@@ -13,7 +13,7 @@ import com.example.amazondemo.interf.ItemClickListener;
 public class ProductViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     public TextView pNameTxt, pDescTxt,pPriceTxt;
-    //public ImageView pImageView;
+    public ImageView pImageView;
     ItemClickListener itemClickListener;
 
 
@@ -21,7 +21,7 @@ public class ProductViewHolder extends RecyclerView.ViewHolder implements View.O
     public ProductViewHolder(@NonNull View itemView) {
         super(itemView);
 
-        //pImageView = (ImageView) itemView.findViewById(R.id.card_product_image);
+        pImageView = (ImageView) itemView.findViewById(R.id.card_product_image);
         pNameTxt = (TextView) itemView.findViewById(R.id.card_product_name);
         pDescTxt = (TextView) itemView.findViewById(R.id.card_product_description);
         pPriceTxt = (TextView) itemView.findViewById(R.id.card_product_price);

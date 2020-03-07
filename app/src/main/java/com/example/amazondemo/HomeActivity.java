@@ -28,6 +28,7 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.Picasso;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -129,7 +130,8 @@ public class HomeActivity extends AppCompatActivity
         } else if (id == R.id.nav_category) {
 
         } else if (id == R.id.nav_settings) {
-
+            Intent i = new Intent(HomeActivity.this,SettingActivity.class);
+            startActivity(i);
         } else if (id == R.id.nav_logout) {
             SharedPreferences loginPreferences = getSharedPreferences("loginPrefs", MODE_PRIVATE);
             loginPreferences.edit().clear().commit();
@@ -157,9 +159,9 @@ public class HomeActivity extends AppCompatActivity
             {
                 holder.pNameTxt.setText(model.getPname());
                 holder.pDescTxt.setText(model.getDescription());
-                holder.pPriceTxt.setText(model.getPrice());
+                holder.pPriceTxt.setText("Price - " + model.getPrice()+ "$");
                 //holder.pImageView.setImageURI(model.getImage());
-                //Picasso.get().load(model.getImage()).into(holder.pImageView);
+                Picasso.get().load(model.getImage()).into(holder.pImageView);
 
             }
 
