@@ -19,15 +19,21 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.amazondemo.model.Product;
+import com.example.amazondemo.model.User;
 import com.example.amazondemo.prevalent.Prevalent;
 import com.example.amazondemo.viewHolder.ProductViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 public class HomeActivity extends AppCompatActivity
@@ -38,6 +44,7 @@ public class HomeActivity extends AppCompatActivity
     private DatabaseReference dbRef;
     private RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
+    private ImageView profileImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +65,8 @@ public class HomeActivity extends AppCompatActivity
             }
         });
 
+
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -70,14 +79,22 @@ public class HomeActivity extends AppCompatActivity
         View headerView = navigationView.getHeaderView(0);
         unameTxt = (TextView) headerView.findViewById(R.id.user_profile_name);
         emailTxt = (TextView) headerView.findViewById(R.id.user_profile_email);
+        profileImageView = (ImageView) headerView.findViewById(R.id.user_profile_image);
+
 
         loginPreferences = getSharedPreferences("loginPrefs", MODE_PRIVATE);
 
         boolean saveLogin = loginPreferences.getBoolean("saveLogin",false);
         String username = loginPreferences.getString("username","").toString();
         String email = loginPreferences.getString("email","").toString();
+
+        //unameTxt.setText(Prevalent.currentUser.getName());
+        //emailTxt.setText(Prevalent.currentUser.getEmail());
+
         unameTxt.setText(username);
         emailTxt.setText(email);
+
+        //Picasso.get().load(Prevalent.currentUser.getEmail()).placeholder(R.drawable.profile).into(profileImageView);
 
         recyclerView = findViewById(R.id.menu);
         recyclerView.setHasFixedSize(true);

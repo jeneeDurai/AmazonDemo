@@ -98,6 +98,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.child(parentDbName).child(usernameKey).exists()){
                     User user = dataSnapshot.child(parentDbName).child(usernameKey).getValue(User.class);
+                    Prevalent.currentUser = user;
                     if(user.getEmail().equals(username) && user.getPassword().equals(password)){
                         loadingBar.dismiss();
                         Toast.makeText(LoginActivity.this, "login Success", Toast.LENGTH_SHORT).show();
