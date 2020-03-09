@@ -7,6 +7,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.amazondemo.model.User;
+import com.example.amazondemo.prevalent.Prevalent;
+import com.google.gson.Gson;
+
 public class MainActivity extends AppCompatActivity {
 
 
@@ -15,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
     private SharedPreferences loginPreferences;
     private SharedPreferences.Editor loginPrefsEditor;
+    private SharedPreferences  mPrefs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,24 +29,25 @@ public class MainActivity extends AppCompatActivity {
         signUpBtn = (Button) findViewById(R.id.main_signup_btn);
         loginPreferences = getSharedPreferences("loginPrefs", MODE_PRIVATE);
         loginPrefsEditor = loginPreferences.edit();
+        mPrefs = getSharedPreferences("loginPrefs",MODE_PRIVATE);
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String uname = loginPreferences.getString("username", null);
+            String currentUserObjStr = loginPreferences.getString("currentUserObj", null);
+            Gson gson = new Gson();
+            String json = mPrefs.getString("currentUserObj", "");
+            User user = gson.fromJson(json, User.class);
 
-                if(uname != null){
-                    Intent i = new Intent(MainActivity.this, HomeActivity.class);
-                    startActivity(i);
-                }
-                else{
-                    Intent i = new Intent(MainActivity.this, LoginActivity.class);
-                    startActivity(i);
-                }
-
-//                Intent i = new Intent(MainActivity.this, HomeActivity.class);
-//                    startActivity(i);
-
+            Prevalent.currentUser = user;
+            if(currentUserObjStr != null && currentUserObjStr != ""){
+                Intent i = new Intent(MainActivity.this, HomeActivity.class);
+                startActivity(i);
+            }
+            else{
+                Intent i = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(i);
+            }
 
             }
         });

@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.amazondemo.model.User;
 import com.example.amazondemo.prevalent.Prevalent;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -26,6 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 
@@ -44,6 +46,8 @@ public class SettingActivity extends AppCompatActivity {
 
     private StorageTask uploadTask;
 
+    private SharedPreferences  mPrefs;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +55,7 @@ public class SettingActivity extends AppCompatActivity {
 
         proImg = (ImageView) findViewById(R.id.user_profile_image_setting);
         proPicStorageRef = FirebaseStorage.getInstance().getReference().child("Profile pictures");
+        mPrefs = getSharedPreferences("loginPrefs",MODE_PRIVATE);
 
         nameTxt = (EditText) findViewById(R.id.setting_name_txt);
         emailTxt = (EditText) findViewById(R.id.setting_email_txt);
@@ -180,22 +185,34 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     private void updateOnlyUserInfo(){
-//        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users");
-//        String email = loginPreferences.getString("email","").toString();
-//
-//        HashMap<String, Object> userMap = new HashMap<>();
-//        userMap. put("name", nameTxt.getText().toString());
-//        userMap. put("address", addTxt.getText().toString());
-//        userMap. put("email", emailTxt.getText().toString());
-//        ref.child(email.substring(0, email.lastIndexOf("."))).updateChildren(userMap);
-//
-//        startActivity(new Intent(SettingActivity.this, HomeActivity.class));
-//        Toast.makeText(SettingActivity.this, "Profile Info update successfully.", Toast.LENGTH_SHORT).show();
-//        finish();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users");
+        String email = Prevalent.currentUser.getEmail();
+
+        HashMap<String, Object> userMap = new HashMap<>();
+        userMap. put("name", nameTxt.getText().toString());
+        userMap. put("address", addTxt.getText().toString());
+        userMap. put("email", emailTxt.getText().toString());
+        ref.child(email.substring(0, email.lastIndexOf("."))).updateChildren(userMap);
+
+        User user = Prevalent.currentUser;
+        user.setName(nameTxt.getText().toString());
+        user.setAddress(addTxt.getText().toString());
+        user.setEmail(emailTxt.getText().toString());
+
+        SharedPreferences.Editor prefsEditor = mPrefs.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(user);
+        prefsEditor.putString("currentUserObj", json);
+        prefsEditor.commit();
+        Prevalent.currentUser = user;
+
+        startActivity(new Intent(SettingActivity.this, HomeActivity.class));
+        Toast.makeText(SettingActivity.this, "Profile Info update successfully.", Toast.LENGTH_SHORT).show();
+        finish();
     }
 
     private void userInfoDisplay() {
-        String email = loginPreferences.getString("email","").toString();
+        String email = Prevalent.currentUser.getEmail();
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("Users").child(email.substring(0, email.lastIndexOf(".")));
         userRef.addValueEventListener(new ValueEventListener() {
             @Override

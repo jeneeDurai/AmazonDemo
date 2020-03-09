@@ -20,6 +20,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -29,9 +30,9 @@ public class LoginActivity extends AppCompatActivity {
     private CheckBox remberMeCheck;
     private String parentDbName = "Users";
 
-    private SharedPreferences loginPreferences;
-    private SharedPreferences.Editor loginPrefsEditor;
     private Boolean saveLogin;
+
+    private SharedPreferences  mPrefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +43,9 @@ public class LoginActivity extends AppCompatActivity {
         passwordTxt = (EditText) findViewById(R.id.login_password_input);
         loginBtn = (Button) findViewById(R.id.login_btn);
         loadingBar = new ProgressDialog(this);
-        loginPreferences = getSharedPreferences("loginPrefs", MODE_PRIVATE);
-        loginPrefsEditor = loginPreferences.edit();
 
-        saveLogin = loginPreferences.getBoolean("saveLogin", false);
+        mPrefs = getSharedPreferences("loginPrefs",MODE_PRIVATE);
+        saveLogin = mPrefs.getBoolean("saveLogin", false);
 
         remberMeCheck = (CheckBox) findViewById(R.id.remberme);
 
@@ -55,6 +55,8 @@ public class LoginActivity extends AppCompatActivity {
                 loginUser();
             }
         });
+
+
     }
 
     private void loginUser() {
@@ -97,29 +99,35 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.child(parentDbName).child(usernameKey).exists()){
+
                     User user = dataSnapshot.child(parentDbName).child(usernameKey).getValue(User.class);
-                    Prevalent.currentUser = user;
+
                     if(user.getEmail().equals(username) && user.getPassword().equals(password)){
+
+                        Prevalent.currentUser = user;
+
+                        SharedPreferences.Editor prefsEditor = mPrefs.edit();
+                        Gson gson = new Gson();
+                        String json = gson.toJson(user);
+                        prefsEditor.putString("currentUserObj", json);
+
+
                         loadingBar.dismiss();
                         Toast.makeText(LoginActivity.this, "login Success", Toast.LENGTH_SHORT).show();
 
-                        loginPrefsEditor.putString("username", user.getName());
-                        loginPrefsEditor.putString("email", username);
 
                         if(remberMeCheck.isChecked()){
-                            loginPrefsEditor.putBoolean("saveLogin", true);
+                            prefsEditor.putBoolean("saveLogin", true);
                         }
                         else{
-                            loginPrefsEditor.putBoolean("saveLogin", false);
+                            prefsEditor.putBoolean("saveLogin", false);
                         }
-                        loginPrefsEditor.commit();
+
+                        prefsEditor.commit();
 
                         Intent i = new Intent(LoginActivity.this, HomeActivity.class);
                         startActivity(i);
 
-
-  //                      String uname = loginPreferences.getString("username", null);
-//                        Toast.makeText(LoginActivity.this, uname, Toast.LENGTH_SHORT).show();
 
                     }
                     else{

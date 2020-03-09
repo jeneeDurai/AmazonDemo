@@ -21,30 +21,26 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.amazondemo.model.Product;
 import com.example.amazondemo.model.User;
-import com.example.amazondemo.prevalent.Prevalent;
 import com.example.amazondemo.viewHolder.ProductViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     TextView unameTxt,emailTxt;
-    private SharedPreferences loginPreferences;
     private DatabaseReference dbRef;
     private RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     private ImageView profileImageView;
+    private SharedPreferences  mPrefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +62,7 @@ public class HomeActivity extends AppCompatActivity
         });
 
 
+        mPrefs = getSharedPreferences("loginPrefs",MODE_PRIVATE);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -82,19 +79,14 @@ public class HomeActivity extends AppCompatActivity
         profileImageView = (ImageView) headerView.findViewById(R.id.user_profile_image);
 
 
-        loginPreferences = getSharedPreferences("loginPrefs", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = mPrefs.getString("currentUserObj", "");
+        User obj = gson.fromJson(json, User.class);
 
-        boolean saveLogin = loginPreferences.getBoolean("saveLogin",false);
-        String username = loginPreferences.getString("username","").toString();
-        String email = loginPreferences.getString("email","").toString();
+        unameTxt.setText(obj.getName());
+        emailTxt.setText(obj.getEmail());
 
-        //unameTxt.setText(Prevalent.currentUser.getName());
-        //emailTxt.setText(Prevalent.currentUser.getEmail());
-
-        unameTxt.setText(username);
-        emailTxt.setText(email);
-
-        //Picasso.get().load(Prevalent.currentUser.getEmail()).placeholder(R.drawable.profile).into(profileImageView);
+        Picasso.get().load(obj.getImage()).placeholder(R.drawable.profile).into(profileImageView);
 
         recyclerView = findViewById(R.id.menu);
         recyclerView.setHasFixedSize(true);
