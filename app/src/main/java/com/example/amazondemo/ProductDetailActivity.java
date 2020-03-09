@@ -12,7 +12,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     private Button addToCartButton, qtyIncBtn, qtyDecBtn;
     private ImageView productImage;
     private TextView productPrice, productDescription, productName;
-    private EditText qtyTxt;
+    private TextView qtyTxt;
     private String productID = "", state = "Normal";
 
 
@@ -29,6 +29,6 @@ public class ProductDetailActivity extends AppCompatActivity {
         productName = (TextView) findViewById(R.id.product_name_details);
         productDescription = (TextView) findViewById(R.id.product_description_details);
         productPrice = (TextView) findViewById(R.id.product_price_details);
-        qtyTxt = (EditText) findViewById(R.id.qty_txt);
+        qtyTxt = (TextView) findViewById(R.id.qty_txt);
     }
 }
