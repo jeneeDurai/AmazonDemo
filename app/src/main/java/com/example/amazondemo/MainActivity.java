@@ -40,17 +40,14 @@ public class MainActivity extends AppCompatActivity {
             User user = gson.fromJson(json, User.class);
 
             Prevalent.currentUser = user;
-//            if(currentUserObjStr != null && currentUserObjStr != ""){
-//                Intent i = new Intent(MainActivity.this, HomeActivity.class);
-//                startActivity(i);
-//            }
-//            else{
-//                Intent i = new Intent(MainActivity.this, LoginActivity.class);
-//                startActivity(i);
-//            }
-
-                Intent i = new Intent(MainActivity.this, ProductDetailActivity.class);
+            if(currentUserObjStr != null && currentUserObjStr != ""){
+                Intent i = new Intent(MainActivity.this, HomeActivity.class);
                 startActivity(i);
+            }
+            else{
+                Intent i = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(i);
+            }
 
             }
         });
