@@ -219,18 +219,15 @@ public class SettingActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 if(dataSnapshot.exists()){
-                    if(dataSnapshot.child("image").exists()){
-                        String image = dataSnapshot.child("image").getValue().toString();
-                        String name = dataSnapshot.child("name").getValue().toString();
-                        String email = dataSnapshot.child("email").getValue().toString();
-                        String address = dataSnapshot.child("address").getValue().toString();
+                    String image = dataSnapshot.child("image").getValue().toString();
+                    String name = dataSnapshot.child("name").getValue().toString();
+                    String email = dataSnapshot.child("email").getValue().toString();
+                    String address = dataSnapshot.child("address").getValue().toString();
 
-                        Picasso.get().load(image).into(proImg);
-                        nameTxt.setText(name);
-                        emailTxt.setText(email);
-                        addTxt.setText(address);
-
-                    }
+                    Picasso.get().load(image).into(proImg);
+                    nameTxt.setText(name);
+                    emailTxt.setText(email);
+                    addTxt.setText(address);
                 }
             }
 
