@@ -50,6 +50,10 @@ public class ProductDetailActivity extends AppCompatActivity {
         productPrice = (TextView) findViewById(R.id.product_price_details);
         qtyTxt = (TextView) findViewById(R.id.qty_txt);
 
+        if(!getIntent().getStringExtra("qty").isEmpty()){
+            qtyTxt.setText(getIntent().getStringExtra("qty"));
+        }
+
         qtyIncBtn = (Button) findViewById(R.id.qty_inc_button);
         qtyDecBtn = (Button) findViewById(R.id.qty_dec_button);
 
